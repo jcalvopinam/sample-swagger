@@ -26,10 +26,7 @@ package com.jcalvopinam.controller;
 
 import com.jcalvopinam.domain.Contact;
 import com.jcalvopinam.service.ContactService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +35,9 @@ import java.util.List;
 /**
  * Created by juanca on 5/18/17.
  */
-@Api(value = "ContactController Endpoint",
-        description = "Endpoint for managing contacts",
-        basePath = "personal-information/v1")
+@Api(value = "/personal-information/v1",
+        description = "ContactController Endpoint for managing contacts",
+        basePath = "http://localhost:8080/contacts/personal-information/v1")
 @RestController
 @RequestMapping(value = "/personal-information/v1")
 public class ContactController {
@@ -63,10 +60,9 @@ public class ContactController {
     @ApiOperation(value = "Finds a contact by {id}.", responseContainer = "Contact")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal server error occurred")})
+    @ApiParam(value = "Contact's {id}", required = true)
     @GetMapping(value = "/contact/{id}")
     public Contact findContact(@PathVariable("id") Long id) {
         return contactService.find(id);
@@ -76,8 +72,6 @@ public class ContactController {
             responseContainer = "Contact")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal server error occurred")})
     @PostMapping(value = "/contact")
@@ -88,10 +82,9 @@ public class ContactController {
     @ApiOperation(value = "Updates an existing contact by {id}.", responseContainer = "Contact")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal server error occurred")})
+    @ApiParam(value = "Contact's {id}", required = true)
     @PutMapping(value = "/contact/{id}")
     public Contact updateContact(@PathVariable("id") Long id, @RequestBody Contact contact) {
         return contactService.update(id, contact);
@@ -100,10 +93,9 @@ public class ContactController {
     @ApiOperation(value = "Deletes an existing contact by {id}.", responseContainer = "void")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 401, message = "Unauthorized"),
-            @ApiResponse(code = 403, message = "Forbidden"),
             @ApiResponse(code = 404, message = "Not Found"),
             @ApiResponse(code = 500, message = "Internal server error occurred")})
+    @ApiParam(value = "Contact's {id}", required = true)
     @DeleteMapping(value = "/contact/{id}")
     public void deleteContact(@PathVariable("id") Long id) {
         contactService.delete(id);
